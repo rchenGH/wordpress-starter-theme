@@ -1,0 +1,15 @@
+<?php get_header(); ?>
+
+    <!-- CONTENT -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Front-end-Boilerplate</h1>
+                <p>Developed by Murillo Camargo <a href="mailto:murillo@murillocamargo.com.br">murillo@murillocamargo.com.br</a></p>
+                <p><a class="btn btn-primary btn-lg" href="http://www.murillocamargo.com.br" target="_blank" role="button">Visit my website</a></p>
+            </div>
+        </div>
+    </div>
+
+<?php get_footer(); ?>

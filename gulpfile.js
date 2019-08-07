@@ -111,10 +111,9 @@ function copyStructure() {
 // BrowserSync
 function browserSync(done) {
     browsersync.init({
-        server: {
-            baseDir: "./"
-        },
-        port: 3000
+        open: 'external',
+        host: 'virtualhost.local.test',
+        proxy: 'virtualhost.local.test'
     });
     done();
 }
@@ -139,8 +138,7 @@ const assets = gulp.parallel(css, images, js);
 const copy = gulp.parallel(copyAssets, copyStructure);
 
 const build = gulp.series(clean, assets, copy);
-// const watch = gulp.parallel(watchFiles, browserSync);
-const watch = gulp.parallel(watchFiles);
+const watch = gulp.parallel(watchFiles, browserSync);
 
 // export tasks
 exports.build = build;

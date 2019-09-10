@@ -104,8 +104,17 @@ function copyAssets() {
 
 function copyStructure() {
     return gulp
-        .src("./*.{html,php}")
+        .src([
+            "./*.{html,php}",
+            "./*.{css}"
+        ])
         .pipe(gulp.dest('dist'));
+}
+
+function copyComponents() {
+    return gulp
+        .src("./inc/**/*")
+        .pipe(gulp.dest('dist/inc'));
 }
 
 // BrowserSync
@@ -135,7 +144,7 @@ function watchFiles() {
 // define complex tasks
 const js = gulp.series(scriptsLint, scripts);
 const assets = gulp.parallel(css, images, js);
-const copy = gulp.parallel(copyAssets, copyStructure);
+const copy = gulp.parallel(copyAssets, copyStructure, copyComponents);
 
 const build = gulp.series(clean, assets, copy);
 const watch = gulp.parallel(watchFiles, browserSync);

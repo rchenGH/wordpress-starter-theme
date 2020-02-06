@@ -9,6 +9,7 @@ const concat = require('gulp-concat');
 const del = require("del");
 const eslint = require("gulp-eslint");
 const imagemin = require("gulp-imagemin");
+const JpegTran = require("jpegtran");
 const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");
@@ -81,7 +82,7 @@ function images() {
         .pipe(
             imagemin([
                 imagemin.gifsicle({interlaced: true}),
-                imagemin.jpegtran({progressive: true}),
+                imagemin.mozjpeg({quality: 75, progressive: true}),
                 imagemin.optipng({optimizationLevel: 5}),
                 imagemin.svgo({
                     plugins: [

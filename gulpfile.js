@@ -9,7 +9,6 @@ const concat = require('gulp-concat');
 const del = require("del");
 const eslint = require("gulp-eslint");
 const imagemin = require("gulp-imagemin");
-const JpegTran = require("jpegtran");
 const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");

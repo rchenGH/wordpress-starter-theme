@@ -106,7 +106,7 @@ function copyStructure() {
     return gulp
         .src([
             "./*.{html,php}",
-            "./*.{css}"
+            "./*.css"
         ])
         .pipe(gulp.dest('dist'));
 }

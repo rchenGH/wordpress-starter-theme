@@ -2,6 +2,7 @@
 
     <!-- CONTENT -->
 
+<main id="main">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -11,5 +12,7 @@
             </div>
         </div>
     </div>
+</main>
+<!-- /#main -->
 
 <?php get_footer(); ?>

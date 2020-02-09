@@ -45,7 +45,6 @@ function css() {
 function scriptsLint() {
     return gulp
         .src(["./source/scripts/frontend.js"])
-        .pipe(plumber())
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());

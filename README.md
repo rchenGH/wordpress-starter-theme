@@ -4,15 +4,15 @@ Basic structure for front-end development
 ## Assets
 
 ### Framework
-- Bootstrap v4.3.1
+- Bootstrap v4.4.x
 
 ### Vendors
-- Jquery v3.3.1
-- Jquery Migrate v3.0.1
+- Jquery v3.4.1
+- Jquery Migrate v3.1.0
 - Modernizr v3.6.0
 
 ### Managers
-- Gulp v4.0.0
+- Gulp v4.x
 
 #### Gulp & NPM modules
 - autoprefixer

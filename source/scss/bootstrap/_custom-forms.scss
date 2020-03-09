@@ -21,7 +21,10 @@
 
 .custom-control-input {
   position: absolute;
+  left: 0;
   z-index: -1; // Put the input behind the label so it doesn't overlay text
+  width: $custom-control-indicator-size;
+  height: ($font-size-base * $line-height-base + $custom-control-indicator-size) / 2;
   opacity: 0;
 
   &:checked ~ .custom-control-label::before {
@@ -51,9 +54,9 @@
     @include box-shadow($custom-control-indicator-active-box-shadow);
   }
 
-  // Use disabled attribute instead of :disabled pseudo-class
-  // Workaround for: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11295231
-  &[disabled] {
+  // Use [disabled] and :disabled to work around https://github.com/twbs/bootstrap/issues/28247
+  &[disabled],
+  &:disabled {
     ~ .custom-control-label {
       color: $custom-control-label-disabled-color;
 
@@ -73,6 +76,7 @@
   margin-bottom: 0;
   color: $custom-control-label-color;
   vertical-align: top;
+  cursor: $custom-control-cursor;
 
   // Background-color and (when enabled) gradient
   &::before {
@@ -114,7 +118,7 @@
 
   .custom-control-input:checked ~ .custom-control-label {
     &::after {
-      background-image: $custom-checkbox-indicator-icon-checked;
+      background-image: escape-svg($custom-checkbox-indicator-icon-checked);
     }
   }
 
@@ -125,7 +129,7 @@
       @include box-shadow($custom-checkbox-indicator-indeterminate-box-shadow);
     }
     &::after {
-      background-image: $custom-checkbox-indicator-icon-indeterminate;
+      background-image: escape-svg($custom-checkbox-indicator-icon-indeterminate);
     }
   }
 
@@ -151,7 +155,7 @@
 
   .custom-control-input:checked ~ .custom-control-label {
     &::after {
-      background-image: $custom-radio-indicator-icon-checked;
+      background-image: escape-svg($custom-radio-indicator-icon-checked);
     }
   }
 
@@ -180,8 +184,8 @@
     }
 
     &::after {
-      top: calc(#{(($font-size-base * $line-height-base - $custom-control-indicator-size) / 2)} + #{$custom-control-indicator-border-width * 2});
-      left: calc(#{-($custom-switch-width + $custom-control-gutter)} + #{$custom-control-indicator-border-width * 2});
+      top: add(($font-size-base * $line-height-base - $custom-control-indicator-size) / 2, $custom-control-indicator-border-width * 2);
+      left: add(-($custom-switch-width + $custom-control-gutter), $custom-control-indicator-border-width * 2);
       width: $custom-switch-indicator-size;
       height: $custom-switch-indicator-size;
       background-color: $custom-control-indicator-border-color;
@@ -223,8 +227,7 @@
   line-height: $custom-select-line-height;
   color: $custom-select-color;
   vertical-align: middle;
-  background: $custom-select-background;
-  background-color: $custom-select-bg;
+  background: $custom-select-bg $custom-select-background;
   border: $custom-select-border-width solid $custom-select-border-color;
   @include border-radius($custom-select-border-radius, 0);
   @include box-shadow($custom-select-box-shadow);
@@ -265,6 +268,12 @@
   // Hides the default caret in IE11
   &::-ms-expand {
     display: none;
+  }
+
+  // Remove outline from select box in FF
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 $custom-select-color;
   }
 }
 
@@ -310,10 +319,20 @@
     box-shadow: $custom-file-focus-box-shadow;
   }
 
-  // Use disabled attribute instead of :disabled pseudo-class
-  // Workaround for: https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/11295231
-  &[disabled] ~ .custom-file-label {
+  // Use [disabled] and :disabled to work around https://github.com/twbs/bootstrap/issues/28247
+  &[disabled] ~ .custom-file-label,
+  &:disabled ~ .custom-file-label {
     background-color: $custom-file-disabled-bg;
+  }
+
+  @each $lang, $value in $custom-file-text {
+    &:lang(#{$lang}) ~ .custom-file-label::after {
+      content: $value;
+    }
+  }
+
+  ~ .custom-file-label[data-browse]::after {
+    content: attr(data-browse);
   }
 }
 
@@ -323,43 +342,33 @@
   right: 0;
   left: 0;
   z-index: 1;
-  display: flex;
   height: $custom-file-height;
-  border-color: $custom-file-border-color;
-  @include border-radius($custom-file-border-radius);
-  @include box-shadow($custom-file-box-shadow);
-}
-
-.custom-file-text {
-  display: block;
-  flex-grow: 1;
   padding: $custom-file-padding-y $custom-file-padding-x;
-  overflow: hidden;
   font-family: $custom-file-font-family;
   font-weight: $custom-file-font-weight;
   line-height: $custom-file-line-height;
   color: $custom-file-color;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   background-color: $custom-file-bg;
-  border-color: inherit;
-  border-style: solid;
-  border-width: $custom-file-border-width;
-  @include border-left-radius(inherit);
-}
+  border: $custom-file-border-width solid $custom-file-border-color;
+  @include border-radius($custom-file-border-radius);
+  @include box-shadow($custom-file-box-shadow);
 
-.custom-file-button {
-  display: block;
-  flex-shrink: 0;
-  padding: $custom-file-padding-y $custom-file-padding-x;
-  margin-left: -$custom-file-border-width;
-  line-height: $custom-file-line-height;
-  color: $custom-file-button-color;
-  @include gradient-bg($custom-file-button-bg);
-  border-color: inherit;
-  border-style: solid;
-  border-width: $custom-file-border-width;
-  @include border-right-radius(inherit);
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: $custom-file-height-inner;
+    padding: $custom-file-padding-y $custom-file-padding-x;
+    line-height: $custom-file-line-height;
+    color: $custom-file-button-color;
+    content: "Browse";
+    @include gradient-bg($custom-file-button-bg);
+    border-left: inherit;
+    @include border-radius(0 $custom-file-border-radius $custom-file-border-radius 0);
+  }
 }
 
 // Range
@@ -370,7 +379,7 @@
 
 .custom-range {
   width: 100%;
-  height: calc(#{$custom-range-thumb-height} + #{$custom-range-thumb-focus-box-shadow-width * 2});
+  height: add($custom-range-thumb-height, $custom-range-thumb-focus-box-shadow-width * 2);
   padding: 0; // Need to reset padding
   background-color: transparent;
   appearance: none;
@@ -507,8 +516,6 @@
 
 .custom-control-label::before,
 .custom-file-label,
-.custom-file-text,
-.custom-file-button,
 .custom-select {
   @include transition($custom-forms-transition);
 }

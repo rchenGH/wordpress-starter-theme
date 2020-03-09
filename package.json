@@ -11,9 +11,9 @@
   "license": "MIT",
   "homepage": "https://github.com/murillocamargo/Front-end-Boilerplate",
   "devDependencies": {
-    "@babel/core": "^7.8.4",
+    "@babel/core": "^7.8.7",
     "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
-    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-env": "^7.8.7",
     "autoprefixer": "^9.7.4",
     "babel-plugin-transform-es2015-modules-strip": "^0.1.1",
     "babel-preset-env": "^1.7.0",
